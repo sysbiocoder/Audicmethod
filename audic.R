@@ -58,11 +58,21 @@ y <- newdata[[f2]]
 newdata$csh <- newdata[[f1]]
 newdata$tmt <- newdata[[f2]]
 
-counts <- data.frame(newdata$csh,newdata$tmt)
-dge <- DGEList(counts=counts,genes=data.frame(Length=newdata$Length))
-dge <- calcNormFactors(dge)
-RPKM <- rpkm(dge)
-head(RPKM)
+
+# Calculte RPKM
+
+colno <- ncol(data)
+rownames(data) <- data[,1]
+RPKM <- NULL
+for(i in 2:ncol(data)-1)
+{
+d <-data[,i]
+l <- data[[len]] #Accessing the length column
+cS <- sum(as.numeric(data[,i])) #Total mapped reads per sample 
+RPKM[[i]] <- (10^9)*(as.numeric(data[,i]))/(as.numeric(l)*cS)
+RPKM[[1]] <- data[[1]]
+}
+
 
 #------------------------------------Precalculations--------------------------------------------------------------------
 d <- x+y
@@ -77,10 +87,10 @@ B <- factorial(x+y)
 #----------------------------------------Audic----------------------------------------------------------------------------------
 
 Pvalue <- exp(lchoose(x+y,x)-(x+y+1)*log(2))
-FDR <-  p.adjust(Pvalue,method="bonferroni")
+FDR <-  p.adjust(Pvalue,method="BH")
 #---------------------FC----calculation-------------------------------------------------------------------------------------------
 
-log2FC <- log2(RPKM[,1]/RPKM[,2])
+log2FC <- log2(RPKM[[f2]]/RPKM[[f1]])
 #----------------------------------------Master file----------------------------------------------------------------------------------
 acr <-data.frame(data$Geneid,log2FC,Pvalue,FDR)
 file1 <- paste(ofile,"Master.txt",sep="")
