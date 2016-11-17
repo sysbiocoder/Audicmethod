@@ -7,4 +7,5 @@ The input file should be in the format containing Genenames, counts and length c
  
 # usage 
 To run from command line
+
 R CMD BATCH  '--args ctrl_column_no tmt_column_no input_file outfolder_name Length_column_no' audic.R audic.Rout
