@@ -4,6 +4,7 @@ This program can be used to identify the differential gene expression analysis o
 # Input file
 The input file should be in the format containing Genenames, counts and length columns separated by <TAB> space
 
-To run from command line 
+ 
 # usage 
+To run from command line
 R CMD BATCH  '--args ctrl_column_no tmt_column_no input_file outfolder_name Length_column_no' audic.R audic.Rout
