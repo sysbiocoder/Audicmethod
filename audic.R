@@ -73,7 +73,8 @@ RPKM[[i]] <- (10^9)*(as.numeric(data[,i]))/(as.numeric(l)*cS)
 RPKM[[1]] <- data[[1]]
 }
 
-
+RPKM <- as.data.frame(RPKM)
+colnames(RPKM) <- colnames(data[ 2:ncol(data)-1)
 #------------------------------------Precalculations--------------------------------------------------------------------
 d <- x+y
 a <- factorial(x)*factorial(y)
